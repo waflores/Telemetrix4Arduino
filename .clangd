@@ -1,27 +1,7 @@
-# CompileFlags:
-#   - '-DARDUINO=20702'
-#   - '-DARDUINO_AVR_UNO'
-#   - '-I<project_root>'
-#   - '-I<project_root>/libraries'
+Documentation:
+  CommentFormat: Doxygen
 
-CompileCommands:
-  - '${workspaceFolder}/build/compile_commands.json'
 
-HeaderFilter:
-  - '.h'
-  - '.ino'
-
-CursorAsCodebaseRoot: Off
-
-AllFiles: On
-
-Index:
-  - Database: '.clangd'
-    - UseTags: Off
-    - UseSyntax: Off
-    - UseAST: Off
-    - UseBackground: On
-    - UseBackgroundDatabase: On
-
-Fallback:
-  - LanguageServer: 'clangd'
+CompileFlags:
+  BuiltinHeaders: QueryDriver
+  CompilationDatabase: .
