@@ -13,11 +13,13 @@ def main():
         value = 90
         bus.write_byte(address, value)
     except:
-        print("Error talking to slave.\nCheck that the wiring is correct and you're using the correct pins.")
+        print(
+            "Error talking to slave.\nCheck that the wiring is correct and you're using the correct pins."
+        )
     finally:
         bus.close()
     print("Sent", value)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

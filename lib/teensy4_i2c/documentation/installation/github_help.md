@@ -26,7 +26,7 @@ drop down menu.
 
 ## Using Branches
 "Branches" contain different versions of the code. If you want
-to download a ZIP for a differnt branch then use the drop down
+to download a ZIP for a different branch then use the drop down
 on the left hand side of the screen to change branch before
 clicking the "Code" button. The example above is showing the
 "master" branch.

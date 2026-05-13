@@ -2,7 +2,6 @@
 # Copyright © 2020 Richard Gemmell
 # Released under the MIT License. See license.txt. (https://opensource.org/licenses/MIT)
 
-import struct
 
 from smbus2 import *
 
@@ -16,7 +15,9 @@ def main():
     try:
         bus.write_i2c_block_data(address, register, data)
     except:
-        print("Error talking to slave.\nCheck that the wiring is correct and you're using the correct pins.")
+        print(
+            "Error talking to slave.\nCheck that the wiring is correct and you're using the correct pins."
+        )
     finally:
         bus.close()
     # Note that the register appears as data to a simple slave reader
@@ -27,5 +28,5 @@ def main():
     print("Sent", all_bytes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -7,8 +7,8 @@ from matplotlib.ticker import ScalarFormatter, AutoLocator
 
 from i2c_line import I2CLine
 
-mpl.rcParams['lines.linewidth'] = 2
-mpl.rcParams['font.size'] = 22
+mpl.rcParams["lines.linewidth"] = 2
+mpl.rcParams["font.size"] = 22
 
 
 class I2CTrace:
@@ -19,9 +19,11 @@ class I2CTrace:
         self.scl = I2CLine()
 
         # A4 Size
-        self.page_color = '#C2D7FF'
-        plot_color = '#FEFDC3'
-        self.fig, self.ax = plt.subplots(figsize=(15.98, 11.23/2), facecolor=self.page_color)
+        self.page_color = "#C2D7FF"
+        plot_color = "#FEFDC3"
+        self.fig, self.ax = plt.subplots(
+            figsize=(15.98, 11.23 / 2), facecolor=self.page_color
+        )
         self.ax.set_facecolor(plot_color)
         self.fig.tight_layout(rect=[0.04, 0.04, 1, 0.96])
 
@@ -34,20 +36,22 @@ class I2CTrace:
         # Voltage ticks marks and grid lines
         self.ax.set_yticks([0, 1.0], ["GND", "Vdd"])
         self.ax.set_yticks([0.3, 0.5, 0.7], ["0.3", "0.5", "0.7"], minor=True)
-        self.ax.grid(axis='y', which='major', color='black')
-        self.ax.grid(axis='y', which='minor', color='grey', linestyle='--')
+        self.ax.grid(axis="y", which="major", color="black")
+        self.ax.grid(axis="y", which="minor", color="grey", linestyle="--")
 
         # Time tick marks and grid lines
-        self.ax.tick_params(axis='x', which='major')
-        self.ax.tick_params(axis='x', which='minor', labelsize='small')
+        self.ax.tick_params(axis="x", which="major")
+        self.ax.tick_params(axis="x", which="minor", labelsize="small")
         self.ax.xaxis.set_minor_locator(AutoLocator())
         self.ax.xaxis.set_minor_formatter(ScalarFormatter())
 
     def plot(self):
         timestamps = np.arange(self.start, self.stop, 1)
-        self.plot_line(timestamps, self.sda, "SDA", 'blue')
-        self.plot_line(timestamps, self.scl, "SCL", 'red')
-        self.ax.legend(facecolor=self.page_color, fontsize='small', loc='upper left', borderpad=0.2)
+        self.plot_line(timestamps, self.sda, "SDA", "blue")
+        self.plot_line(timestamps, self.scl, "SCL", "red")
+        self.ax.legend(
+            facecolor=self.page_color, fontsize="small", loc="upper left", borderpad=0.2
+        )
 
     def plot_line(self, timestamps, line: I2CLine, label: str, color: str):
         if not line.show:
@@ -69,37 +73,67 @@ class I2CTrace:
         self.fig.show()
 
     def save(self, filename: str):
-        self.fig.savefig(filename, format='png')
+        self.fig.savefig(filename, format="png")
 
-    def add_voltage_measurement(self, title: str, x_pos: int, start: float, stop: float, lines: bool = False):
+    def add_voltage_measurement(
+        self, title: str, x_pos: int, start: float, stop: float, lines: bool = False
+    ):
         if lines:
-            self.ax.axhline(start, linewidth=1, color='grey')
-            self.ax.axhline(stop, linewidth=1, color='grey')
+            self.ax.axhline(start, linewidth=1, color="grey")
+            self.ax.axhline(stop, linewidth=1, color="grey")
         self.ax.annotate(
-            '', xy=(x_pos, stop), xycoords='data',
-            xytext=(x_pos, start), textcoords='data',
-            arrowprops={'arrowstyle': '<->', 'shrinkA': 0, 'shrinkB': 0})
+            "",
+            xy=(x_pos, stop),
+            xycoords="data",
+            xytext=(x_pos, start),
+            textcoords="data",
+            arrowprops={"arrowstyle": "<->", "shrinkA": 0, "shrinkB": 0},
+        )
         self.ax.annotate(
-            title, xy=(x_pos, ((stop-start)/2)+start), xycoords='data',
-            xytext=(5, -5), textcoords='offset points', fontsize='x-small')
+            title,
+            xy=(x_pos, ((stop - start) / 2) + start),
+            xycoords="data",
+            xytext=(5, -5),
+            textcoords="offset points",
+            fontsize="x-small",
+        )
 
-    def measure_between_edges(self, title: str, y_pos: float, left: [str, int, float], right: [str, int, float], lines: bool = True):
+    def measure_between_edges(
+        self,
+        title: str,
+        y_pos: float,
+        left: [str, int, float],
+        right: [str, int, float],
+        lines: bool = True,
+    ):
         start = self.get_time_from_edge(left)
         stop = self.get_time_from_edge(right)
         self.add_measurement(title, y_pos, start, stop, lines)
 
     def get_time_from_edge(self, edge: [int, float]) -> int:
-        if edge[0] == 'SCL':
+        if edge[0] == "SCL":
             return self.scl.get_time_from_edge(index=edge[1], v=edge[2])
         return self.sda.get_time_from_edge(index=edge[1], v=edge[2])
 
-    def add_measurement(self, title: str, y_pos: float, start: int, stop: int, lines: bool = True):
+    def add_measurement(
+        self, title: str, y_pos: float, start: int, stop: int, lines: bool = True
+    ):
         if lines:
-            self.ax.axvline(start, linewidth=1, color='grey', linestyle='--')
-            self.ax.axvline(stop, linewidth=1, color='grey', linestyle='--')
+            self.ax.axvline(start, linewidth=1, color="grey", linestyle="--")
+            self.ax.axvline(stop, linewidth=1, color="grey", linestyle="--")
         self.ax.annotate(
-            '', xy=(start, y_pos), xycoords='data',
-            xytext=(stop, y_pos), textcoords='data',
-            arrowprops={'arrowstyle': '<->', 'shrinkA': 0, 'shrinkB': 0})
-        self.ax.text(((stop-start)/2)+start, y_pos+0.01, title,
-             ha='center', va='bottom', fontsize='x-small')
+            "",
+            xy=(start, y_pos),
+            xycoords="data",
+            xytext=(stop, y_pos),
+            textcoords="data",
+            arrowprops={"arrowstyle": "<->", "shrinkA": 0, "shrinkB": 0},
+        )
+        self.ax.text(
+            ((stop - start) / 2) + start,
+            y_pos + 0.01,
+            title,
+            ha="center",
+            va="bottom",
+            fontsize="x-small",
+        )

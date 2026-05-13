@@ -13,7 +13,7 @@ def main():
     bus = SMBus(1)
     print("Sending messages to addresses in range", hex(address1), "to", hex(address2))
     try:
-        for address in range(address1, address2+1):
+        for address in range(address1, address2 + 1):
             send_message(bus, address)
     finally:
         bus.close()
@@ -31,5 +31,5 @@ def send_message(bus, address):
         print(hex(address), "Error: No response from Teensy")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

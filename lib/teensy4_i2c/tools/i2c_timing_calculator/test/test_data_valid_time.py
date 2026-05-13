@@ -10,7 +10,9 @@ class TestI2CTimingCalculatorDataValidTime(TimingTestBase):
         data_hold_master = config.data_hold(master=True, falling=False)
         self.assertEqual(data_hold_master.i2c_value + 1000, data_valid_master.i2c_value)
         self.assertEqual(data_hold_master.nominal, data_valid_master.nominal)
-        self.assertEqual(data_hold_master.worst_case + 1000, data_valid_master.worst_case)
+        self.assertEqual(
+            data_hold_master.worst_case + 1000, data_valid_master.worst_case
+        )
 
         data_valid_slave = config.data_valid(master=False, falling=False)
         data_hold_slave = config.data_hold(master=False, falling=False)
@@ -25,7 +27,9 @@ class TestI2CTimingCalculatorDataValidTime(TimingTestBase):
         data_hold_master = config.data_hold(master=True, falling=True)
         self.assertEqual(data_hold_master.i2c_value + 123, data_valid_master.i2c_value)
         self.assertEqual(data_hold_master.nominal, data_valid_master.nominal)
-        self.assertEqual(data_hold_master.worst_case + 123, data_valid_master.worst_case)
+        self.assertEqual(
+            data_hold_master.worst_case + 123, data_valid_master.worst_case
+        )
 
         data_valid_slave = config.data_valid(master=False, falling=True)
         data_hold_slave = config.data_hold(master=False, falling=True)

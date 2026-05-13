@@ -22,7 +22,7 @@ class Tester:
         # test_size = 15_000_000
         # test_size = 1_000_000
         test_size = 100_000
-        #test_size = 10000
+        # test_size = 10000
 
         self.bus = SMBus(1)
         running = True
@@ -54,22 +54,35 @@ class Tester:
                 self.report()
 
     def report(self):
-        print('Read errors: {} read, {} other from {} read attempts. ({} bytes read)'.format(self.read_errors, self.other_errors, self.read_attempts, self.bytes_read))
-        print('Write errors: {} write, {} other from {} write attempts. ({} bytes written)'.format(self.write_errors, self.other_errors, self.write_attempts, self.bytes_written))
+        print(
+            "Read errors: {} read, {} other from {} read attempts. ({} bytes read)".format(
+                self.read_errors, self.other_errors, self.read_attempts, self.bytes_read
+            )
+        )
+        print(
+            "Write errors: {} write, {} other from {} write attempts. ({} bytes written)".format(
+                self.write_errors,
+                self.other_errors,
+                self.write_attempts,
+                self.bytes_written,
+            )
+        )
 
     def read_and_check_message(self):
         self.read_attempts += 1
         self.bytes_written += 1
         # Read data and compare to expected value
-        result = self.bus.read_i2c_block_data(self.address, 0, len(self.expected_from_teensy))
+        result = self.bus.read_i2c_block_data(
+            self.address, 0, len(self.expected_from_teensy)
+        )
         self.bytes_read += len(result)
-        text = bytes(result).decode('utf-8')
+        text = bytes(result).decode("utf-8")
         if self.expected_from_teensy != text:
             self.read_errors += 1
 
     def write_and_check_message(self):
         self.write_attempts += 1
-        self.bytes_written += len(self.message_bytes)+1
+        self.bytes_written += len(self.message_bytes) + 1
         # Read data and compare to expected value
         self.bus.write_i2c_block_data(self.address, 10, self.message_bytes)
 
@@ -80,6 +93,6 @@ class Tester:
             self.write_errors += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     tester = Tester()
     tester.run()

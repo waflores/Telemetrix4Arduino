@@ -13,11 +13,13 @@ def main():
     try:
         data = bus.read_i2c_block_data(address, register, 6)
     except:
-        print("Error talking to slave.\nCheck that the wiring is correct and you're using the correct pins.")
+        print(
+            "Error talking to slave.\nCheck that the wiring is correct and you're using the correct pins."
+        )
     finally:
         bus.close()
-    print("Teensy says", bytes(data).decode('ASCII'))
+    print("Teensy says", bytes(data).decode("ASCII"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
