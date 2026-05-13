@@ -94,7 +94,12 @@
  *     TELEMETRIX_MAX_COMMAND_LENGTH
  *
  */
+#ifdef __IMXRT1062__
+// Import the Teensy Version
+#include "i2c_driver_wire.h"
+#else
 #include <Wire.h>
+#endif
 /**
  * @brief The buffer size, in bytes, to hold i2c report data from the i2c device
  * - passing it back to the host application.
