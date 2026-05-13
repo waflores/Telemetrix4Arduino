@@ -63,6 +63,7 @@
 // This will allow I2C support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
 #define I2C_ENABLED 1
+
 // clang-format off
 #include <Arduino.h>
 #include "Telemetrix4Arduino.h"
@@ -77,8 +78,42 @@
 #endif
 
 #ifdef I2C_ENABLED
+/**
+ * @brief This library implements the i2c capabilities for Telemetrix
+ *
+ * For Wire version 1.0: the BUFFER_LENGTH macro is set to 32 bytes; however, we
+ * go forked the ArduinoCore-avr framework and we can configure each of the
+ * following buffers on a per-board basis:
+ *     TWI_BUFFER_LENGTH
+ *     ARDUINO_WIRE_TX_BUFFER_LENGTH
+ *     ARDUINO_WIRE_RX_BUFFER_LENGTH
+ *
+ * We typically want to update these buffers in lockstep, additionally we may
+ * want to update the these buffers to increase throughput:
+ *     TELEMETRIX_I2C_REPORT_BUFFER_SIZE
+ *     TELEMETRIX_MAX_COMMAND_LENGTH
+ *
+ */
 #include <Wire.h>
-#endif
+/**
+ * @brief The buffer size, in bytes, to hold i2c report data from the i2c device
+ * - passing it back to the host application.
+ *
+ */
+#ifndef TELEMETRIX_I2C_REPORT_BUFFER_SIZE
+#define TELEMETRIX_I2C_REPORT_BUFFER_SIZE 64
+#endif // end TELEMETRIX_I2C_REPORT_BUFFER_SIZE
+
+/**
+ * @brief We can configure the clock speed of i2c bus by setting this variable
+ * during compilation.
+ *
+ */
+#ifndef TELEMETRIX_I2C_CLOCK_SPEED
+#define TELEMETRIX_I2C_CLOCK_SPEED 100000
+#endif // end TELEMETRIX_I2C_CLOCK_SPEED
+
+#endif // end I2C_ENABLED
 
 #ifdef DHT_ENABLED
 #include <DHTStable.h>
@@ -97,7 +132,7 @@
 #endif
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
-/*                    Arduino ID                      */
+/*                    Arduino ID                                    */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
 // This value must be the same as specified when instantiating the
@@ -376,10 +411,12 @@ command_descriptor command_table[] = {
 };
 
 // maximum length of a command in bytes
-#define MAX_COMMAND_LENGTH 30
+#ifndef TELEMETRIX_MAX_COMMAND_LENGTH
+#define TELEMETRIX_MAX_COMMAND_LENGTH 30
+#endif
 
 // buffer to hold incoming command data
-byte command_buffer[MAX_COMMAND_LENGTH];
+byte command_buffer[TELEMETRIX_MAX_COMMAND_LENGTH];
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*                 Reporting Defines and Support                    */
@@ -410,7 +447,7 @@ byte command_buffer[MAX_COMMAND_LENGTH];
 
 #ifdef I2C_ENABLED
 // A buffer to hold i2c report data
-byte i2c_report_message[64];
+byte i2c_report_message[TELEMETRIX_I2C_REPORT_BUFFER_SIZE];
 #endif
 
 // A buffer to hold spi report data
@@ -895,11 +932,13 @@ void i2c_begin() {
   byte i2c_port = command_buffer[0];
   if (not i2c_port) {
     Wire.begin();
+    Wire.setClock(TELEMETRIX_I2C_CLOCK_SPEED);
   }
 
 #ifdef SECOND_I2C_PORT
   else {
     Wire2.begin();
+    Wire2.setClock(TELEMETRIX_I2C_CLOCK_SPEED);
   }
 #endif
 #endif
@@ -950,13 +989,32 @@ void i2c_read() {
 #endif
 
   // check to be sure correct number of bytes were returned by slave
-  if (command_buffer[2] < current_i2c_port->available()) {
-    byte report_message[4] = {3, I2C_TOO_FEW_BYTES_RCVD, 1, address};
-    Serial.write(report_message, 4);
+  auto number_of_byes_given_in_command_buffer = command_buffer[2];
+  /**
+   * @brief We need to make sure that we're not creating a bug where
+      current_i2c_port->available() is greater than 127.
+   *
+   */
+  auto current_i2c_bytes_available = current_i2c_port->available();
+
+  if (number_of_byes_given_in_command_buffer < current_i2c_bytes_available) {
+    byte report_message[6] = {5,
+                              I2C_TOO_FEW_BYTES_RCVD,
+                              1,
+                              address,
+                              number_of_byes_given_in_command_buffer,
+                              static_cast<byte>(current_i2c_bytes_available)};
+    Serial.write(report_message, 6);
     return;
-  } else if (command_buffer[2] > current_i2c_port->available()) {
-    byte report_message[4] = {3, I2C_TOO_MANY_BYTES_RCVD, 1, address};
-    Serial.write(report_message, 4);
+  } else if (number_of_byes_given_in_command_buffer >
+             current_i2c_bytes_available) {
+    byte report_message[6] = {5,
+                              I2C_TOO_MANY_BYTES_RCVD,
+                              1,
+                              address,
+                              number_of_byes_given_in_command_buffer,
+                              static_cast<byte>(current_i2c_bytes_available)};
+    Serial.write(report_message, 6);
     return;
   }
 
