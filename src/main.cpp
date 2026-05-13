@@ -15,10 +15,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 // This file is rather large, so it has been rearranged in logical sections.
-// Here is the list of sections to help make it easier to locate items of interest,
-// and aid when adding new features.
+// Here is the list of sections to help make it easier to locate items of
+// interest, and aid when adding new features.
 
 // 1. Feature Enabling Defines
 // 2. Arduino ID
@@ -31,46 +30,43 @@
 // 9. Scanning Inputs, Generating Reports And Running Steppers
 // 10. Setup and Loop
 
-
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*                    FEATURE ENABLING DEFINES                      */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
-
-
 
 // To disable a feature, comment out the desired enabling define or defines
 
 // This will allow SPI support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
-#define SPI_ENABLED 0
+// #define SPI_ENABLED 1
 
 // This will allow OneWire support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
-#define ONE_WIRE_ENABLED 0
+// #define ONE_WIRE_ENABLED 1
 
 // This will allow DHT support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
-#define DHT_ENABLED 0
+// #define DHT_ENABLED 1
 
 // This will allow sonar support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
-#define SONAR_ENABLED 0
+// #define SONAR_ENABLED 1
 
 // This will allow servo support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
-#define SERVO_ENABLED 0
+// #define SERVO_ENABLED 1
 
 // This will allow stepper support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
-#define STEPPERS_ENABLED 0
+// #define STEPPERS_ENABLED 1
 
 // This will allow I2C support to be compiled into the sketch.
 // Comment this out to save sketch space for the UNO
 #define I2C_ENABLED 1
-
-
+// clang-format off
 #include <Arduino.h>
 #include "Telemetrix4Arduino.h"
+// clang-format on
 
 #ifdef SERVO_ENABLED
 #include <Servo.h>
@@ -100,7 +96,6 @@
 #include <AccelStepper.h>
 #endif
 
-
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*                    Arduino ID                      */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
@@ -113,13 +108,11 @@
 
 #define ARDUINO_ID 1
 
-
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*         Client Command Related Defines and Support               */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
 // Commands Sent By The Client
-
 
 // Add commands retaining the sequential numbering.
 // The order of commands here must be maintained in the command_table.
@@ -127,7 +120,8 @@
 #define SET_PIN_MODE 1
 #define DIGITAL_WRITE 2
 #define ANALOG_WRITE 3
-#define MODIFY_REPORTING 4  // mode(all, analog, or digital), pin, enable or disable
+#define MODIFY_REPORTING                                                       \
+  4 // mode(all, analog, or digital), pin, enable or disable
 #define GET_FIRMWARE_VERSION 5
 #define ARE_U_THERE 6
 #define SERVO_ATTACH 7
@@ -182,8 +176,6 @@
 #define SONAR_SCAN_ON 56
 
 #define BOARD_HARD_RESET 57
-
-
 
 /* Command Forward References*/
 
@@ -319,79 +311,75 @@ struct command_descriptor {
   void (*command_func)(void);
 };
 
-
 // An array of pointers to the command functions.
 // The list must be in the same order as the command defines.
 
 command_descriptor command_table[] = {
-  { &serial_loopback },
-  { &set_pin_mode },
-  { &digital_write },
-  { &analog_write },
-  { &modify_reporting },
-  { &get_firmware_version },
-  { &are_you_there },
-  { &servo_attach },
-  { &servo_write },
-  { &servo_detach },
-  { &i2c_begin },
-  { &i2c_read },
-  { &i2c_write },
-  { &sonar_new },
-  { &dht_new },
-  { &stop_all_reports },
-  { &set_analog_scanning_interval },
-  { &enable_all_reports },
-  { &reset_data },
-  { &init_spi },
-  { &write_blocking_spi },
-  { &read_blocking_spi },
-  { &set_format_spi },
-  { &spi_cs_control },
-  { &onewire_init },
-  { &onewire_reset },
-  { &onewire_select },
-  { &onewire_skip },
-  { &onewire_write },
-  { &onewire_read },
-  { &onewire_reset_search },
-  { &onewire_search },
-  { &onewire_crc8 },
-  { &set_pin_mode_stepper },
-  { &stepper_move_to },
-  { &stepper_move },
-  { &stepper_run },
-  { &stepper_run_speed },
-  { &stepper_set_max_speed },
-  { &stepper_set_acceleration },
-  { &stepper_set_speed },
-  (&stepper_set_current_position),
-  (&stepper_run_speed_to_position),
-  (&stepper_stop),
-  (&stepper_disable_outputs),
-  (&stepper_enable_outputs),
-  (&stepper_set_minimum_pulse_width),
-  (&stepper_set_enable_pin),
-  (&stepper_set_3_pins_inverted),
-  (&stepper_set_4_pins_inverted),
-  (&stepper_is_running),
-  (&stepper_get_current_position),
-  { &stepper_get_distance_to_go },
-  (&stepper_get_target_position),
-  (&get_features),
-  (&sonar_disable),
-  (&sonar_enable),
-  (&board_hard_reset),
+    {&serial_loopback},
+    {&set_pin_mode},
+    {&digital_write},
+    {&analog_write},
+    {&modify_reporting},
+    {&get_firmware_version},
+    {&are_you_there},
+    {&servo_attach},
+    {&servo_write},
+    {&servo_detach},
+    {&i2c_begin},
+    {&i2c_read},
+    {&i2c_write},
+    {&sonar_new},
+    {&dht_new},
+    {&stop_all_reports},
+    {&set_analog_scanning_interval},
+    {&enable_all_reports},
+    {&reset_data},
+    {&init_spi},
+    {&write_blocking_spi},
+    {&read_blocking_spi},
+    {&set_format_spi},
+    {&spi_cs_control},
+    {&onewire_init},
+    {&onewire_reset},
+    {&onewire_select},
+    {&onewire_skip},
+    {&onewire_write},
+    {&onewire_read},
+    {&onewire_reset_search},
+    {&onewire_search},
+    {&onewire_crc8},
+    {&set_pin_mode_stepper},
+    {&stepper_move_to},
+    {&stepper_move},
+    {&stepper_run},
+    {&stepper_run_speed},
+    {&stepper_set_max_speed},
+    {&stepper_set_acceleration},
+    {&stepper_set_speed},
+    {&stepper_set_current_position},
+    {&stepper_run_speed_to_position},
+    {&stepper_stop},
+    {&stepper_disable_outputs},
+    {&stepper_enable_outputs},
+    {&stepper_set_minimum_pulse_width},
+    {&stepper_set_enable_pin},
+    {&stepper_set_3_pins_inverted},
+    {&stepper_set_4_pins_inverted},
+    {&stepper_is_running},
+    {&stepper_get_current_position},
+    {&stepper_get_distance_to_go},
+    {&stepper_get_target_position},
+    {&get_features},
+    {&sonar_disable},
+    {&sonar_enable},
+    {&board_hard_reset},
 };
-
-
 
 // maximum length of a command in bytes
 #define MAX_COMMAND_LENGTH 30
 
 // buffer to hold incoming command data
 byte command_buffer[MAX_COMMAND_LENGTH];
-
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*                 Reporting Defines and Support                    */
@@ -442,9 +430,9 @@ uint8_t spi_mode = SPI_MODE0;
 
 #endif
 
-bool stop_reports = false;  // a flag to stop sending all report messages
+bool stop_reports = false; // a flag to stop sending all report messages
 
-bool sonar_reporting_enabled = true;  // flag to start and stop sonar reporting
+bool sonar_reporting_enabled = true; // flag to start and stop sonar reporting
 
 // Input pin reporting control sub commands (modify_reporting)
 #define REPORTING_DISABLE_ALL 0
@@ -452,7 +440,6 @@ bool sonar_reporting_enabled = true;  // flag to start and stop sonar reporting
 #define REPORTING_DIGITAL_ENABLE 2
 #define REPORTING_ANALOG_DISABLE 3
 #define REPORTING_DIGITAL_DISABLE 4
-
 
 // DHT Report sub-types
 #define DHT_DATA 0
@@ -462,7 +449,6 @@ bool sonar_reporting_enabled = true;  // flag to start and stop sonar reporting
 #define FIRMWARE_MAJOR 5
 #define FIRMWARE_MINOR 4
 #define FIRMWARE_PATCH 4
-
 
 // Feature Masks And Storage
 
@@ -477,8 +463,6 @@ bool sonar_reporting_enabled = true;  // flag to start and stop sonar reporting
 // a byte to hold the enabled features
 // the masks are OR'ed into the features byte
 uint8_t features = 0;
-
-
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*                     i2c Related Defines*/
@@ -503,11 +487,9 @@ TwoWire Wire2(SECOND_I2C_PORT_SDA, SECOND_I2C_PORT_SCL);
 TwoWire *current_i2c_port;
 #endif
 
-
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*           Pin Related Defines And Data Structures                */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
-
 
 // Pin mode definitions
 
@@ -521,7 +503,6 @@ TwoWire *current_i2c_port;
 // maximum number of pins supported
 #define MAX_DIGITAL_PINS_SUPPORTED 100
 #define MAX_ANALOG_PINS_SUPPORTED 16
-
 
 // Analog input pin numbers are defined from
 // A0 - A7. Since we do not know if the board
@@ -565,19 +546,20 @@ TwoWire *current_i2c_port;
 // To translate a pin number from an integer value to its analog pin number
 // equivalent, this array is used to look up the value to use for the pin.
 #ifdef ARDUINO_SAMD_MKRWIFI1010
-int analog_read_pins[20] = { A0, A1, A2, A3, A4, A5, A6 };
+int analog_read_pins[20] = {A0, A1, A2, A3, A4, A5, A6};
 #elif ARDUINO_FSP
-int analog_read_pins[20] = { A0, A1, A2, A3, A4, A5 };
+int analog_read_pins[20] = {A0, A1, A2, A3, A4, A5};
 #else
-int analog_read_pins[20] = { A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15 };
+int analog_read_pins[20] = {A0, A1, A2,  A3,  A4,  A5,  A6,  A7,
+                            A8, A9, A10, A11, A12, A13, A14, A15};
 #endif
 
 // a descriptor for digital pins
 struct pin_descriptor {
   byte pin_number;
   byte pin_mode;
-  bool reporting_enabled;  // If true, then send reports if an input pin
-  int last_value;          // Last value read for input mode
+  bool reporting_enabled; // If true, then send reports if an input pin
+  int last_value;         // Last value read for input mode
 };
 
 // an array of digital_pin_descriptors
@@ -587,19 +569,18 @@ pin_descriptor the_digital_pins[MAX_DIGITAL_PINS_SUPPORTED];
 struct analog_pin_descriptor {
   byte pin_number;
   byte pin_mode;
-  bool reporting_enabled;  // If true, then send reports if an input pin
-  int last_value;          // Last value read for input mode
-  int differential;        // difference between current and last value needed
-  // to generate a report
+  bool reporting_enabled; // If true, then send reports if an input pin
+  int last_value;         // Last value read for input mode
+  int differential;       // difference between current and last value needed
+                          // to generate a report
 };
 
 // an array of analog_pin_descriptors
 analog_pin_descriptor the_analog_pins[MAX_ANALOG_PINS_SUPPORTED];
 
-unsigned long current_millis;   // for analog input loop
-unsigned long previous_millis;  // for analog input loop
+unsigned long current_millis;  // for analog input loop
+unsigned long previous_millis; // for analog input loop
 uint8_t analog_sampling_interval = 19;
-
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*  Feature Related Defines, Data Structures and Storage Allocation */
@@ -627,24 +608,25 @@ struct Sonar {
 // an array of sonar objects
 Sonar sonars[MAX_SONARS];
 
-byte sonars_index = 0;  // index into sonars struct
+byte sonars_index = 0; // index into sonars struct
 
 // used for scanning the sonar devices.
 byte last_sonar_visited = 0;
-#endif  //SONAR_ENABLED
+#endif // SONAR_ENABLED
 
-unsigned long sonar_current_millis;   // for analog input loop
-unsigned long sonar_previous_millis;  // for analog input loop
+unsigned long sonar_current_millis;  // for analog input loop
+unsigned long sonar_previous_millis; // for analog input loop
 
 #ifdef SONAR_ENABLED
-uint8_t sonar_scan_interval = 33;  // Milliseconds between sensor pings
+uint8_t sonar_scan_interval = 33; // Milliseconds between sensor pings
 // (29ms is about the min to avoid = 19;
 #endif
 
 // DHT Management
-#define MAX_DHTS 6                 // max number of devices
-#define READ_FAILED_IN_SCANNER 0   // read request failed when scanning
-#define READ_IN_FAILED_IN_SETUP 1  // read request failed when initially setting up
+#define MAX_DHTS 6               // max number of devices
+#define READ_FAILED_IN_SCANNER 0 // read request failed when scanning
+#define READ_IN_FAILED_IN_SETUP                                                \
+  1 // read request failed when initially setting up
 
 #ifdef DHT_ENABLED
 struct DHT {
@@ -657,13 +639,12 @@ struct DHT {
 // an array of dht objects
 DHT dhts[MAX_DHTS];
 
-byte dht_index = 0;  // index into dht struct
+byte dht_index = 0; // index into dht struct
 
-unsigned long dht_current_millis;       // for analog input loop
-unsigned long dht_previous_millis;      // for analog input loop
-unsigned int dht_scan_interval = 2000;  // scan dht's every 2 seconds
-#endif                                  // DHT_ENABLED
-
+unsigned long dht_current_millis;      // for analog input loop
+unsigned long dht_previous_millis;     // for analog input loop
+unsigned int dht_scan_interval = 2000; // scan dht's every 2 seconds
+#endif                                 // DHT_ENABLED
 
 /* OneWire Object*/
 
@@ -675,7 +656,7 @@ OneWire *ow = NULL;
 #define MAX_NUMBER_OF_STEPPERS 8
 
 // stepper motor data
-//#if !defined (__AVR_ATmega328P__)
+// #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 AccelStepper *steppers[MAX_NUMBER_OF_STEPPERS];
 
@@ -683,15 +664,13 @@ AccelStepper *steppers[MAX_NUMBER_OF_STEPPERS];
 uint8_t stepper_run_modes[MAX_NUMBER_OF_STEPPERS];
 #endif
 
-
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*                       Command Functions                          */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 
-
 // A method to send debug data across the serial link
 void send_debug_info(byte id, int value) {
-  byte debug_buffer[5] = { (byte)4, (byte)DEBUG_PRINT, 0, 0, 0 };
+  byte debug_buffer[5] = {(byte)4, (byte)DEBUG_PRINT, 0, 0, 0};
   debug_buffer[2] = id;
   debug_buffer[3] = highByte(value);
   debug_buffer[4] = lowByte(value);
@@ -700,7 +679,7 @@ void send_debug_info(byte id, int value) {
 
 // a function to loop back data over the serial port
 void serial_loopback() {
-  byte loop_back_buffer[3] = { 2, (byte)SERIAL_LOOP_BACK, command_buffer[0] };
+  byte loop_back_buffer[3] = {2, (byte)SERIAL_LOOP_BACK, command_buffer[0]};
   Serial.write(loop_back_buffer, 3);
 }
 
@@ -717,27 +696,28 @@ void set_pin_mode()
   mode = command_buffer[1];
 
   switch (mode) {
-    case INPUT:
-      the_digital_pins[pin].pin_mode = mode;
-      the_digital_pins[pin].reporting_enabled = command_buffer[2];
-      pinMode(pin, INPUT);
-      break;
-    case INPUT_PULLUP:
-      the_digital_pins[pin].pin_mode = mode;
-      the_digital_pins[pin].reporting_enabled = command_buffer[2];
-      pinMode(pin, INPUT_PULLUP);
-      break;
-    case OUTPUT:
-      the_digital_pins[pin].pin_mode = mode;
-      pinMode(pin, OUTPUT);
-      break;
-    case AT_ANALOG:
-      the_analog_pins[pin].pin_mode = mode;
-      the_analog_pins[pin].differential = (command_buffer[2] << 8) + command_buffer[3];
-      the_analog_pins[pin].reporting_enabled = command_buffer[4];
-      break;
-    default:
-      break;
+  case INPUT:
+    the_digital_pins[pin].pin_mode = mode;
+    the_digital_pins[pin].reporting_enabled = command_buffer[2];
+    pinMode(pin, INPUT);
+    break;
+  case INPUT_PULLUP:
+    the_digital_pins[pin].pin_mode = mode;
+    the_digital_pins[pin].reporting_enabled = command_buffer[2];
+    pinMode(pin, INPUT_PULLUP);
+    break;
+  case OUTPUT:
+    the_digital_pins[pin].pin_mode = mode;
+    pinMode(pin, OUTPUT);
+    break;
+  case AT_ANALOG:
+    the_analog_pins[pin].pin_mode = mode;
+    the_analog_pins[pin].differential =
+        (command_buffer[2] << 8) + command_buffer[3];
+    the_analog_pins[pin].reporting_enabled = command_buffer[4];
+    break;
+  default:
+    break;
   }
 }
 
@@ -761,7 +741,7 @@ void digital_write() {
 void analog_write() {
   // command_buffer[0] = PIN, command_buffer[1] = value_msb,
   // command_buffer[2] = value_lsb
-  byte pin;  // command_buffer[0]
+  byte pin; // command_buffer[0]
   unsigned int value;
 
   pin = command_buffer[0];
@@ -778,55 +758,55 @@ void modify_reporting() {
   int pin = command_buffer[1];
 
   switch (command_buffer[0]) {
-    case REPORTING_DISABLE_ALL:
-      for (int i = 0; i < MAX_DIGITAL_PINS_SUPPORTED; i++) {
-        the_digital_pins[i].reporting_enabled = false;
-      }
-      for (int i = 0; i < MAX_ANALOG_PINS_SUPPORTED; i++) {
-        the_analog_pins[i].reporting_enabled = false;
-      }
-      break;
-    case REPORTING_ANALOG_ENABLE:
-      if (the_analog_pins[pin].pin_mode != AT_MODE_NOT_SET) {
-        the_analog_pins[pin].reporting_enabled = true;
-      }
-      break;
-    case REPORTING_ANALOG_DISABLE:
-      if (the_analog_pins[pin].pin_mode != AT_MODE_NOT_SET) {
-        the_analog_pins[pin].reporting_enabled = false;
-      }
-      break;
-    case REPORTING_DIGITAL_ENABLE:
-      if (the_digital_pins[pin].pin_mode != AT_MODE_NOT_SET) {
-        the_digital_pins[pin].reporting_enabled = true;
-      }
-      break;
-    case REPORTING_DIGITAL_DISABLE:
-      if (the_digital_pins[pin].pin_mode != AT_MODE_NOT_SET) {
-        the_digital_pins[pin].reporting_enabled = false;
-      }
-      break;
-    default:
-      break;
+  case REPORTING_DISABLE_ALL:
+    for (int i = 0; i < MAX_DIGITAL_PINS_SUPPORTED; i++) {
+      the_digital_pins[i].reporting_enabled = false;
+    }
+    for (int i = 0; i < MAX_ANALOG_PINS_SUPPORTED; i++) {
+      the_analog_pins[i].reporting_enabled = false;
+    }
+    break;
+  case REPORTING_ANALOG_ENABLE:
+    if (the_analog_pins[pin].pin_mode != AT_MODE_NOT_SET) {
+      the_analog_pins[pin].reporting_enabled = true;
+    }
+    break;
+  case REPORTING_ANALOG_DISABLE:
+    if (the_analog_pins[pin].pin_mode != AT_MODE_NOT_SET) {
+      the_analog_pins[pin].reporting_enabled = false;
+    }
+    break;
+  case REPORTING_DIGITAL_ENABLE:
+    if (the_digital_pins[pin].pin_mode != AT_MODE_NOT_SET) {
+      the_digital_pins[pin].reporting_enabled = true;
+    }
+    break;
+  case REPORTING_DIGITAL_DISABLE:
+    if (the_digital_pins[pin].pin_mode != AT_MODE_NOT_SET) {
+      the_digital_pins[pin].reporting_enabled = false;
+    }
+    break;
+  default:
+    break;
   }
 }
 
 // retrieve the features byte
 void get_features() {
-  byte report_message[3] = { 2, FEATURES, features };
+  byte report_message[3] = {2, FEATURES, features};
   Serial.write(report_message, 3);
 }
 
 // Return the firmware version number
 void get_firmware_version() {
-  byte report_message[5] = { 4, FIRMWARE_REPORT, FIRMWARE_MAJOR, FIRMWARE_MINOR,
-                             FIRMWARE_PATCH };
+  byte report_message[5] = {4, FIRMWARE_REPORT, FIRMWARE_MAJOR, FIRMWARE_MINOR,
+                            FIRMWARE_PATCH};
   Serial.write(report_message, 5);
 }
 
 // Query the firmware for the Arduino ID in use
 void are_you_there() {
-  byte report_message[3] = { 2, I_AM_HERE, ARDUINO_ID };
+  byte report_message[3] = {2, I_AM_HERE, ARDUINO_ID};
   Serial.write(report_message, 3);
 }
 
@@ -867,7 +847,7 @@ void servo_attach() {
     servos[servo_found].attach(pin, minpulse, maxpulse);
   } else {
     // no open servos available, send a report back to client
-    byte report_message[2] = { SERVO_UNAVAILABLE, pin };
+    byte report_message[2] = {SERVO_UNAVAILABLE, pin};
     Serial.write(report_message, 2);
   }
 #endif
@@ -957,21 +937,25 @@ void i2c_read() {
   if (command_buffer[5]) {
     current_i2c_port->beginTransmission(address);
     current_i2c_port->write((byte)the_register);
-    current_i2c_port->endTransmission(command_buffer[3]);  // default = true
+    current_i2c_port->endTransmission(command_buffer[3]); // default = true
   }
 #ifdef ARDUINO_AVR_NANO_EVERY
-  current_i2c_port->requestFrom(address, (size_t)command_buffer[2]);  // all bytes are returned in requestFrom
+  current_i2c_port->requestFrom(
+      address,
+      (size_t)command_buffer[2]); // all bytes are returned in requestFrom
 #else
-  current_i2c_port->requestFrom(address, command_buffer[2]);  // all bytes are returned in requestFrom
+  current_i2c_port->requestFrom(
+      address,
+      command_buffer[2]); // all bytes are returned in requestFrom
 #endif
 
   // check to be sure correct number of bytes were returned by slave
   if (command_buffer[2] < current_i2c_port->available()) {
-    byte report_message[4] = { 3, I2C_TOO_FEW_BYTES_RCVD, 1, address };
+    byte report_message[4] = {3, I2C_TOO_FEW_BYTES_RCVD, 1, address};
     Serial.write(report_message, 4);
     return;
   } else if (command_buffer[2] > current_i2c_port->available()) {
-    byte report_message[4] = { 3, I2C_TOO_MANY_BYTES_RCVD, 1, address };
+    byte report_message[4] = {3, I2C_TOO_MANY_BYTES_RCVD, 1, address};
     Serial.write(report_message, 4);
     return;
   }
@@ -986,7 +970,7 @@ void i2c_read() {
   i2c_report_message[2] = command_buffer[4];
 
   // number of bytes read
-  i2c_report_message[3] = command_buffer[2];  // number of bytes
+  i2c_report_message[3] = command_buffer[2]; // number of bytes
 
   // device address
   i2c_report_message[4] = address;
@@ -995,7 +979,9 @@ void i2c_read() {
   i2c_report_message[5] = the_register;
 
   // append the data that was read
-  for (message_size = 0; message_size < command_buffer[2] && current_i2c_port->available(); message_size++) {
+  for (message_size = 0;
+       message_size < command_buffer[2] && current_i2c_port->available();
+       message_size++) {
     i2c_report_message[6 + message_size] = current_i2c_port->read();
   }
   // send slave address, register and received bytes
@@ -1046,20 +1032,16 @@ void sonar_new() {
 #ifdef SONAR_ENABLED
 
   // command_buffer[0] = trigger pin,  command_buffer[1] = echo pin
-  sonars[sonars_index].usonic = new Ultrasonic((uint8_t)command_buffer[0], (uint8_t)command_buffer[1],
-                                               80000UL);
+  sonars[sonars_index].usonic = new Ultrasonic(
+      (uint8_t)command_buffer[0], (uint8_t)command_buffer[1], 80000UL);
   sonars[sonars_index].trigger_pin = command_buffer[0];
   sonars_index++;
 #endif
 }
 
-void sonar_disable() {
-  sonar_reporting_enabled = false;
-}
+void sonar_disable() { sonar_reporting_enabled = false; }
 
-void sonar_enable() {
-  sonar_reporting_enabled = true;
-}
+void sonar_enable() { sonar_reporting_enabled = true; }
 
 void board_hard_reset() {
 #if defined(ARDUINO_FSP)
@@ -1092,8 +1074,8 @@ void init_spi() {
 #ifdef SPI_ENABLED
   int cs_pin;
 
-  //Serial.print(command_buffer[1]);
-  // initialize chip select GPIO pins
+  // Serial.print(command_buffer[1]);
+  //  initialize chip select GPIO pins
   for (int i = 0; i < command_buffer[0]; i++) {
     cs_pin = command_buffer[1 + i];
     // Chip select is active-low, so we'll initialise it to a driven-high state
@@ -1109,8 +1091,8 @@ void write_blocking_spi() {
 #ifdef SPI_ENABLED
   int num_bytes = command_buffer[1];
 
-  //send_debug_info(4, spi_bit_order);
-  //send_debug_info(5, spi_mode);
+  // send_debug_info(4, spi_bit_order);
+  // send_debug_info(5, spi_mode);
   SPI.beginTransaction(SPISettings(spi_clock_freq, spi_bit_order, spi_mode));
   digitalWrite(command_buffer[0], 0);
   for (int i = 0; i < num_bytes; i++) {
@@ -1126,16 +1108,16 @@ void write_blocking_spi() {
 void read_blocking_spi() {
 #ifdef SPI_ENABLED
 
-  spi_report_message[0] = command_buffer[1] + 4;  // packet length
+  spi_report_message[0] = command_buffer[1] + 4; // packet length
   spi_report_message[1] = SPI_REPORT;
-  spi_report_message[2] = command_buffer[0];  // chip select pin
-  spi_report_message[3] = command_buffer[2];  // register
-  spi_report_message[4] = command_buffer[1];  // number of bytes read
+  spi_report_message[2] = command_buffer[0]; // chip select pin
+  spi_report_message[3] = command_buffer[2]; // register
+  spi_report_message[4] = command_buffer[1]; // number of bytes read
 
-  //send_debug_info(command_buffer[0], 0);
-  //send_debug_info(command_buffer[1], 1);
-  //send_debug_info(command_buffer[2], 2);
-  //send_debug_info(command_buffer[3], 3);
+  // send_debug_info(command_buffer[0], 0);
+  // send_debug_info(command_buffer[1], 1);
+  // send_debug_info(command_buffer[2], 2);
+  // send_debug_info(command_buffer[3], 3);
 
   SPI.beginTransaction(SPISettings(spi_clock_freq, spi_bit_order, spi_mode));
   // command_buffer[0] == number of bytes to read
@@ -1161,13 +1143,12 @@ void read_blocking_spi() {
   }
   delay(100);
 
-
   // now read the specified number of bytes and place
   // them in the report buffer
   for (int i = 0; i < command_buffer[1]; i++) {
     spi_report_message[i + 5] = SPI.transfer(0x00);
   }
-  //send_debug_info(SPI.transfer(0x00), 2);
+  // send_debug_info(SPI.transfer(0x00), 2);
   digitalWrite(command_buffer[0], 1);
 
   SPI.endTransaction();
@@ -1186,7 +1167,7 @@ void set_format_spi() {
 
 #if defined(__AVR__)
   spi_bit_order = command_buffer[1];
-  //SPISettings(command_buffer[0], command_buffer[1], command_buffer[2]);
+  // SPISettings(command_buffer[0], command_buffer[1], command_buffer[2]);
 #else
   BitOrder b;
 
@@ -1196,8 +1177,8 @@ void set_format_spi() {
     b = LSBFIRST;
   }
   spi_bit_order = b;
-#endif  // avr
-#endif  // SPI_ENABLED
+#endif // avr
+#endif // SPI_ENABLED
 }
 
 // set the SPI chip select line
@@ -1221,7 +1202,8 @@ void onewire_reset() {
 #ifdef ONE_WIRE_ENABLED
 
   uint8_t reset_return = ow->reset();
-  uint8_t onewire_report_message[] = { 3, ONE_WIRE_REPORT, ONE_WIRE_RESET, reset_return };
+  uint8_t onewire_report_message[] = {3, ONE_WIRE_REPORT, ONE_WIRE_RESET,
+                                      reset_return};
 
   Serial.write(onewire_report_message, 4);
 #endif
@@ -1267,7 +1249,7 @@ void onewire_read() {
 
   uint8_t data = ow->read();
 
-  uint8_t onewire_report_message[] = { 3, ONE_WIRE_REPORT, ONE_WIRE_READ, data };
+  uint8_t onewire_report_message[] = {3, ONE_WIRE_REPORT, ONE_WIRE_READ, data};
 
   Serial.write(onewire_report_message, 4);
 #endif
@@ -1285,9 +1267,17 @@ void onewire_reset_search() {
 void onewire_search() {
 #ifdef ONE_WIRE_ENABLED
 
-  uint8_t onewire_report_message[] = { 10, ONE_WIRE_REPORT, ONE_WIRE_SEARCH,
-                                       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-                                       0xff };
+  uint8_t onewire_report_message[] = {10,
+                                      ONE_WIRE_REPORT,
+                                      ONE_WIRE_SEARCH,
+                                      0xff,
+                                      0xff,
+                                      0xff,
+                                      0xff,
+                                      0xff,
+                                      0xff,
+                                      0xff,
+                                      0xff};
 
   ow->search(&onewire_report_message[3]);
   Serial.write(onewire_report_message, 11);
@@ -1299,7 +1289,7 @@ void onewire_crc8() {
 #ifdef ONE_WIRE_ENABLED
 
   uint8_t crc = ow->crc8(&command_buffer[1], command_buffer[0]);
-  uint8_t onewire_report_message[] = { 3, ONE_WIRE_REPORT, ONE_WIRE_CRC8, crc };
+  uint8_t onewire_report_message[] = {3, ONE_WIRE_REPORT, ONE_WIRE_CRC8, crc};
   Serial.write(onewire_report_message, 4);
 #endif
 }
@@ -1307,7 +1297,7 @@ void onewire_crc8() {
 // Stepper Motor supported
 // Stepper Motor supported
 void set_pin_mode_stepper() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   // motor_id = command_buffer[0]
@@ -1319,14 +1309,14 @@ void set_pin_mode_stepper() {
   // enable = command_buffer[6]
 
   // instantiate a stepper object and store it in the stepper array
-  steppers[command_buffer[0]] = new AccelStepper(command_buffer[1], command_buffer[2],
-                                                 command_buffer[3], command_buffer[4],
-                                                 command_buffer[5], command_buffer[6]);
+  steppers[command_buffer[0]] =
+      new AccelStepper(command_buffer[1], command_buffer[2], command_buffer[3],
+                       command_buffer[4], command_buffer[5], command_buffer[6]);
 #endif
 }
 
 void stepper_move_to() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   // motor_id = command_buffer[0]
@@ -1349,7 +1339,7 @@ void stepper_move_to() {
 }
 
 void stepper_move() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   // motor_id = command_buffer[0]
@@ -1358,7 +1348,6 @@ void stepper_move() {
   // position MSB-2 = command_buffer[3]
   // position LSB = command_buffer[4]
   // polarity = command_buffer[5]
-
 
   // convert the 4 position bytes to a long
   long position = (long)(command_buffer[1]) << 24;
@@ -1373,7 +1362,7 @@ void stepper_move() {
 }
 
 void stepper_run() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   stepper_run_modes[command_buffer[0]] = STEPPER_RUN;
 #endif
@@ -1381,7 +1370,7 @@ void stepper_run() {
 
 void stepper_run_speed() {
   // motor_id = command_buffer[0]
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   stepper_run_modes[command_buffer[0]] = STEPPER_RUN_SPEED;
@@ -1389,7 +1378,7 @@ void stepper_run_speed() {
 }
 
 void stepper_set_max_speed() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   // motor_id = command_buffer[0]
@@ -1402,7 +1391,7 @@ void stepper_set_max_speed() {
 }
 
 void stepper_set_acceleration() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   // motor_id = command_buffer[0]
@@ -1419,7 +1408,7 @@ void stepper_set_speed() {
   // motor_id = command_buffer[0]
   // speed_msb = command_buffer[1]
   // speed_lsb = command_buffer[2]
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
 
   float speed = (float)((command_buffer[1] << 8) + command_buffer[2]);
@@ -1431,18 +1420,15 @@ void stepper_set_speed() {
 }
 
 void stepper_get_distance_to_go() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   // motor_id = command_buffer[0]
 
   // report = STEPPER_DISTANCE_TO_GO, motor_id, distance(8 bytes)
 
-
-
-  byte report_message[7] = { 6, STEPPER_DISTANCE_TO_GO, command_buffer[0] };
+  byte report_message[7] = {6, STEPPER_DISTANCE_TO_GO, command_buffer[0]};
 
   long dtg = steppers[command_buffer[0]]->distanceToGo();
-
 
   report_message[3] = (byte)((dtg & 0xFF000000) >> 24);
   report_message[4] = (byte)((dtg & 0x00FF0000) >> 16);
@@ -1455,18 +1441,15 @@ void stepper_get_distance_to_go() {
 }
 
 void stepper_get_target_position() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   // motor_id = command_buffer[0]
 
   // report = STEPPER_TARGET_POSITION, motor_id, distance(8 bytes)
 
-
-
-  byte report_message[7] = { 6, STEPPER_TARGET_POSITION, command_buffer[0] };
+  byte report_message[7] = {6, STEPPER_TARGET_POSITION, command_buffer[0]};
 
   long target = steppers[command_buffer[0]]->targetPosition();
-
 
   report_message[3] = (byte)((target & 0xFF000000) >> 24);
   report_message[4] = (byte)((target & 0x00FF0000) >> 16);
@@ -1479,18 +1462,15 @@ void stepper_get_target_position() {
 }
 
 void stepper_get_current_position() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   // motor_id = command_buffer[0]
 
   // report = STEPPER_CURRENT_POSITION, motor_id, distance(8 bytes)
 
-
-
-  byte report_message[7] = { 6, STEPPER_CURRENT_POSITION, command_buffer[0] };
+  byte report_message[7] = {6, STEPPER_CURRENT_POSITION, command_buffer[0]};
 
   long position = steppers[command_buffer[0]]->currentPosition();
-
 
   report_message[3] = (byte)((position & 0xFF000000) >> 24);
   report_message[4] = (byte)((position & 0x00FF0000) >> 16);
@@ -1503,7 +1483,7 @@ void stepper_get_current_position() {
 }
 
 void stepper_set_current_position() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   // motor_id = command_buffer[0]
   // position MSB = command_buffer[1]
@@ -1522,7 +1502,7 @@ void stepper_set_current_position() {
 }
 
 void stepper_run_speed_to_position() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   stepper_run_modes[command_buffer[0]] = STEPPER_RUN_SPEED_TO_POSITION;
 
@@ -1530,32 +1510,31 @@ void stepper_run_speed_to_position() {
 }
 
 void stepper_stop() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   steppers[command_buffer[0]]->stop();
   steppers[command_buffer[0]]->disableOutputs();
   stepper_run_modes[command_buffer[0]] = STEPPER_STOP;
 
-
 #endif
 }
 
 void stepper_disable_outputs() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   steppers[command_buffer[0]]->disableOutputs();
 #endif
 }
 
 void stepper_enable_outputs() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   steppers[command_buffer[0]]->enableOutputs();
 #endif
 }
 
 void stepper_set_minimum_pulse_width() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   unsigned int pulse_width = (command_buffer[1] << 8) + command_buffer[2];
   steppers[command_buffer[0]]->setMinPulseWidth(pulse_width);
@@ -1563,14 +1542,14 @@ void stepper_set_minimum_pulse_width() {
 }
 
 void stepper_set_enable_pin() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   steppers[command_buffer[0]]->setEnablePin((uint8_t)command_buffer[1]);
 #endif
 }
 
 void stepper_set_3_pins_inverted() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   // command_buffer[1] = directionInvert
   // command_buffer[2] = stepInvert
@@ -1587,25 +1566,23 @@ void stepper_set_4_pins_inverted() {
   // command_buffer[3] = pin3
   // command_buffer[4] = pin4
   // command_buffer[5] = enable
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
-  steppers[command_buffer[0]]->setPinsInverted((bool)command_buffer[1],
-                                               (bool)command_buffer[2],
-                                               (bool)command_buffer[3],
-                                               (bool)command_buffer[4],
-                                               (bool)command_buffer[5]);
+  steppers[command_buffer[0]]->setPinsInverted(
+      (bool)command_buffer[1], (bool)command_buffer[2], (bool)command_buffer[3],
+      (bool)command_buffer[4], (bool)command_buffer[5]);
 #endif
 }
 
 void stepper_is_running() {
-  //#if !defined (__AVR_ATmega328P__)
+  // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
   // motor_id = command_buffer[0]
 
   // report = STEPPER_IS_RUNNING, motor_id,  running_state
   // running state - true if the speed is not zero or not at the target position
 
-  byte report_message[4] = { 3, STEPPER_RUNNING_REPORT, command_buffer[0] };
+  byte report_message[4] = {3, STEPPER_RUNNING_REPORT, command_buffer[0]};
 
   report_message[3] = steppers[command_buffer[0]]->isRunning();
 
@@ -1652,7 +1629,7 @@ void get_next_command() {
   command = (byte)Serial.read();
 
   // uncomment the next line to see the packet length and command
-  //send_debug_info(packet_length, command);
+  // send_debug_info(packet_length, command);
   command_entry = command_table[command];
 
   if (packet_length > 1) {
@@ -1664,7 +1641,7 @@ void get_next_command() {
       }
       command_buffer[i] = (byte)Serial.read();
       // uncomment out to see each of the bytes following the command
-      //send_debug_info(i, command_buffer[i]);
+      // send_debug_info(i, command_buffer[i]);
     }
   }
   command_entry.command_func();
@@ -1677,8 +1654,8 @@ void reset_data() {
   // fist stop all reporting
   stop_all_reports();
 
-  current_millis = 0;   // for analog input loop
-  previous_millis = 0;  // for analog input loop
+  current_millis = 0;  // for analog input loop
+  previous_millis = 0; // for analog input loop
   analog_sampling_interval = 19;
 
   // detach any attached servos
@@ -1691,20 +1668,20 @@ void reset_data() {
 #endif
 
 #ifdef SONAR_ENABLED
-  sonars_index = 0;  // reset the index into the sonars array
+  sonars_index = 0; // reset the index into the sonars array
 
-  sonar_current_millis = 0;   // for analog input loop
-  sonar_previous_millis = 0;  // for analog input loop
-  sonar_scan_interval = 33;   // Milliseconds between sensor pings
+  sonar_current_millis = 0;  // for analog input loop
+  sonar_previous_millis = 0; // for analog input loop
+  sonar_scan_interval = 33;  // Milliseconds between sensor pings
   memset(sonars, 0, sizeof(sonars));
 #endif
 
 #ifdef DHT_ENABLED
-  dht_index = 0;  // index into dht array
+  dht_index = 0; // index into dht array
 
-  dht_current_millis = 0;    // for analog input loop
-  dht_previous_millis = 0;   // for analog input loop
-  dht_scan_interval = 2000;  // scan dht's every 2 seconds
+  dht_current_millis = 0;   // for analog input loop
+  dht_previous_millis = 0;  // for analog input loop
+  dht_scan_interval = 2000; // scan dht's every 2 seconds
 #endif
 
 #ifdef DHT_ENABLED
@@ -1732,11 +1709,9 @@ void init_pin_structures() {
   }
 }
 
-
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 /*    Scanning Inputs, Generating Reports And Running Steppers      */
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
-
 
 // scan the digital input pins for changes
 void scan_digital_inputs() {
@@ -1748,10 +1723,11 @@ void scan_digital_inputs() {
   // byte 1 = report type
   // byte 2 = pin number
   // byte 3 = value
-  byte report_message[4] = { 3, DIGITAL_REPORT, 0, 0 };
+  byte report_message[4] = {3, DIGITAL_REPORT, 0, 0};
 
   for (int i = 0; i < MAX_DIGITAL_PINS_SUPPORTED; i++) {
-    if (the_digital_pins[i].pin_mode == INPUT || the_digital_pins[i].pin_mode == INPUT_PULLUP) {
+    if (the_digital_pins[i].pin_mode == INPUT ||
+        the_digital_pins[i].pin_mode == INPUT_PULLUP) {
       if (the_digital_pins[i].reporting_enabled) {
         // if the value changed since last read
         value = (byte)digitalRead(the_digital_pins[i].pin_number);
@@ -1778,7 +1754,7 @@ void scan_analog_inputs() {
   // byte 3 = high order byte of value
   // byte 4 = low order byte of value
 
-  byte report_message[5] = { 4, ANALOG_REPORT, 0, 0, 0 };
+  byte report_message[5] = {4, ANALOG_REPORT, 0, 0, 0};
 
   uint8_t adjusted_pin_number;
   int differential;
@@ -1796,11 +1772,11 @@ void scan_analog_inputs() {
           value = analogRead(adjusted_pin_number);
           differential = abs(value - the_analog_pins[i].last_value);
           if (differential >= the_analog_pins[i].differential) {
-            //trigger value achieved, send out the report
+            // trigger value achieved, send out the report
             the_analog_pins[i].last_value = value;
             // input_message[1] = the_analog_pins[i].pin_number;
             report_message[2] = (byte)i;
-            report_message[3] = highByte(value);  // get high order byte
+            report_message[3] = highByte(value); // get high order byte
             report_message[4] = lowByte(value);
             Serial.write(report_message, 5);
             delay(1);
@@ -1829,8 +1805,9 @@ void scan_sonars() {
         // byte 2 = trigger pin number
         // byte 3 = distance high order byte
         // byte 4 = distance low order byte
-        byte report_message[5] = { 4, SONAR_DISTANCE, sonars[last_sonar_visited].trigger_pin,
-                                   (byte)(distance >> 8), (byte)(distance & 0xff) };
+        byte report_message[5] = {
+            4, SONAR_DISTANCE, sonars[last_sonar_visited].trigger_pin,
+            (byte)(distance >> 8), (byte)(distance & 0xff)};
         Serial.write(report_message, 5);
       }
       last_sonar_visited++;
@@ -1863,7 +1840,7 @@ void scan_dhts() {
   // byte 9 = temperature integer portion
   // byte 10= temperature fractional portion
 
-  byte report_message[11] = { 10, DHT_REPORT, DHT_DATA, 0, 0, 0, 0, 0, 0, 0, 0 };
+  byte report_message[11] = {10, DHT_REPORT, DHT_DATA, 0, 0, 0, 0, 0, 0, 0, 0};
 
   int rv;
 
@@ -1877,7 +1854,7 @@ void scan_dhts() {
 
       // read and report all the dht sensors
       for (int i = 0; i < dht_index; i++) {
-        report_message[0] = 10;  //message length
+        report_message[0] = 10; // message length
         report_message[1] = DHT_REPORT;
         // error type in report_message[2] will be set further down
         report_message[3] = dhts[i].pin;
@@ -1925,13 +1902,10 @@ void scan_dhts() {
 #endif
 }
 
-
-
 void run_steppers() {
 #ifdef STEPPERS_ENABLED
   boolean running;
   long target_position;
-
 
   for (int i = 0; i < MAX_NUMBER_OF_STEPPERS; i++) {
     if (stepper_run_modes[i] == STEPPER_STOP) {
@@ -1939,29 +1913,29 @@ void run_steppers() {
     } else {
       steppers[i]->enableOutputs();
       switch (stepper_run_modes[i]) {
-        case STEPPER_RUN:
-          steppers[i]->run();
-          running = steppers[i]->isRunning();
-          if (!running) {
-            byte report_message[3] = { 2, STEPPER_RUN_COMPLETE_REPORT, (byte)i };
-            Serial.write(report_message, 3);
-            stepper_run_modes[i] = STEPPER_STOP;
-          }
-          break;
-        case STEPPER_RUN_SPEED:
-          steppers[i]->runSpeed();
-          break;
-        case STEPPER_RUN_SPEED_TO_POSITION:
-          running = steppers[i]->runSpeedToPosition();
-          target_position = steppers[i]->targetPosition();
-          if (target_position == steppers[i]->currentPosition()) {
-            byte report_message[3] = { 2, STEPPER_RUN_COMPLETE_REPORT, (byte)i };
-            Serial.write(report_message, 3);
-            stepper_run_modes[i] = STEPPER_STOP;
-          }
-          break;
-        default:
-          break;
+      case STEPPER_RUN:
+        steppers[i]->run();
+        running = steppers[i]->isRunning();
+        if (!running) {
+          byte report_message[3] = {2, STEPPER_RUN_COMPLETE_REPORT, (byte)i};
+          Serial.write(report_message, 3);
+          stepper_run_modes[i] = STEPPER_STOP;
+        }
+        break;
+      case STEPPER_RUN_SPEED:
+        steppers[i]->runSpeed();
+        break;
+      case STEPPER_RUN_SPEED_TO_POSITION:
+        running = steppers[i]->runSpeedToPosition();
+        target_position = steppers[i]->targetPosition();
+        if (target_position == steppers[i]->currentPosition()) {
+          byte report_message[3] = {2, STEPPER_RUN_COMPLETE_REPORT, (byte)i};
+          Serial.write(report_message, 3);
+          stepper_run_modes[i] = STEPPER_STOP;
+        }
+        break;
+      default:
+        break;
       }
     }
   }
@@ -2025,7 +1999,7 @@ void loop() {
   // keep processing incoming commands
   get_next_command();
 
-  if (!stop_reports) {  // stop reporting
+  if (!stop_reports) { // stop reporting
     scan_digital_inputs();
     scan_analog_inputs();
 
@@ -2038,7 +2012,7 @@ void loop() {
 #ifdef DHT_ENABLED
     scan_dhts();
 #endif
-    //#if !defined (__AVR_ATmega328P__)
+    // #if !defined (__AVR_ATmega328P__)
 #ifdef STEPPERS_ENABLED
     run_steppers();
 #endif
