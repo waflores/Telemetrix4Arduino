@@ -16,18 +16,21 @@ pkgs.mkShell {
     with pkgs;
     [
       # keep-sorted start
+      auto-patchelf
       avrdude
       bashInteractive
       nix-fast-build
       nix-output-monitor
       nix-tree
       platformio
+      systemd
       tree
       # keep-sorted end
     ]
     ++ [ teensy_loader_cli ];
   shellHook = ''
     export PLATFORMIO_CORE_DIR=$PWD/.platformio
+    export LD_LIBRARY_PATH=${pkgs.systemd}/lib:$LD_LIBRARY_PATH
   '';
 
 }
