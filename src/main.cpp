@@ -354,11 +354,7 @@ struct command_descriptor {
 // An array of pointers to the command functions.
 // The list must be in the same order as the command defines.
 
-#if defined(__AVR__)
-const command_descriptor command_table[] PROGMEM = {
-#else
 const command_descriptor command_table[] = {
-#endif
     {&serial_loopback},
     {&set_pin_mode},
     {&digital_write},
@@ -600,9 +596,6 @@ TwoWire *current_i2c_port;
 const int analog_read_pins[20] = {A0, A1, A2, A3, A4, A5, A6};
 #elif ARDUINO_FSP
 const int analog_read_pins[20] = {A0, A1, A2, A3, A4, A5};
-#elif defined(__AVR__)
-const int analog_read_pins[20] PROGMEM = {A0, A1, A2,  A3,  A4,  A5,  A6,  A7,
-                                          A8, A9, A10, A11, A12, A13, A14, A15};
 #else
 const int analog_read_pins[20] = {A0, A1, A2,  A3,  A4,  A5,  A6,  A7,
                                   A8, A9, A10, A11, A12, A13, A14, A15};
@@ -1705,11 +1698,7 @@ void get_next_command() {
 
   // uncomment the next line to see the packet length and command
   // send_debug_info(packet_length, command);
-#if defined(__AVR__)
-  memcpy_P(&command_entry, &command_table[command], sizeof(command_entry));
-#else
   command_entry = command_table[command];
-#endif
 
   if (packet_length > 1) {
     // get the data for that command
@@ -1847,11 +1836,7 @@ void scan_analog_inputs() {
         if (the_analog_pins[i].reporting_enabled) {
           // if the value changed since last read
           // adjust pin number for the actual read
-#if defined(__AVR__)
-          adjusted_pin_number = (uint8_t)pgm_read_word(&analog_read_pins[i]);
-#else
           adjusted_pin_number = (uint8_t)(analog_read_pins[i]);
-#endif
           value = analogRead(adjusted_pin_number);
           differential = abs(value - the_analog_pins[i].last_value);
           if (differential >= the_analog_pins[i].differential) {
